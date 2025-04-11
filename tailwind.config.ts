@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Project management specific colors
+				success: {
+					DEFAULT: '#10b981', // Green for "On Track"
+					light: '#d1fae5'
+				},
+				warning: {
+					DEFAULT: '#f59e0b', // Amber for "At Risk"
+					light: '#fef3c7'
+				},
+				danger: {
+					DEFAULT: '#ef4444', // Red for "Off Track"
+					light: '#fee2e2'
+				},
+				info: {
+					DEFAULT: '#3b82f6', // Blue for informational elements
+					light: '#dbeafe'
 				}
 			},
 			borderRadius: {
@@ -84,11 +102,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-opacity': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-opacity': 'pulse-opacity 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 			}
 		}
 	},
