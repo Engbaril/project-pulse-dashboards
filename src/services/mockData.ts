@@ -132,7 +132,7 @@ export const timelineData = [
 export const risksIssues = [
   {
     id: 'risk-001',
-    type: 'risk',
+    type: 'risk' as const,
     title: 'Vendor delivery delays',
     project: 'ERP Implementation',
     priority: 'high' as const,
@@ -141,7 +141,7 @@ export const risksIssues = [
   },
   {
     id: 'issue-001',
-    type: 'issue',
+    type: 'issue' as const,
     title: 'Insufficient server capacity',
     project: 'Cloud Migration',
     priority: 'high' as const,
@@ -150,7 +150,7 @@ export const risksIssues = [
   },
   {
     id: 'risk-002',
-    type: 'risk',
+    type: 'risk' as const,
     title: 'Budget overrun in Q3',
     project: 'Office Relocation',
     priority: 'medium' as const,
@@ -159,7 +159,7 @@ export const risksIssues = [
   },
   {
     id: 'issue-002',
-    type: 'issue',
+    type: 'issue' as const,
     title: 'Team skill gap for new technology',
     project: 'Cloud Migration',
     priority: 'medium' as const,
@@ -168,7 +168,7 @@ export const risksIssues = [
   },
   {
     id: 'risk-003',
-    type: 'risk',
+    type: 'risk' as const,
     title: 'Regulatory compliance issues',
     project: 'Product Launch',
     priority: 'high' as const,
@@ -177,7 +177,7 @@ export const risksIssues = [
   },
   {
     id: 'issue-003',
-    type: 'issue',
+    type: 'issue' as const,
     title: 'Integration failed with legacy system',
     project: 'ERP Implementation',
     priority: 'high' as const,
