@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import PageLayout from '@/components/layout/PageLayout';
 import { risksIssues } from '@/services/mockData';
 import { AddRiskIssueDialog } from '@/components/risks/AddRiskIssueDialog';
+import { RiskIssueFormValues } from '@/types/risks';
 
 const priorityColors = {
   high: 'bg-danger-light text-danger border-danger/40',
@@ -42,13 +43,16 @@ const Risks = () => {
   const risks = risksIssues.filter(item => item.type === 'risk');
   const issues = risksIssues.filter(item => item.type === 'issue');
   
-  const handleNewEntry = (values: any) => {
+  const handleNewEntry = (values: RiskIssueFormValues) => {
     // In a real app, you would save this to your backend/database
     // For now, we'll just show a toast notification
     toast({
       title: `New ${values.type} added`,
       description: `"${values.title}" has been added successfully.`,
     });
+    
+    // Log the values to console for debugging
+    console.log("New entry values:", values);
   };
   
   return (
@@ -70,7 +74,10 @@ const Risks = () => {
             <Button 
               size="sm" 
               className="flex items-center gap-2"
-              onClick={() => setIsDialogOpen(true)}
+              onClick={() => {
+                console.log("New Entry button clicked");
+                setIsDialogOpen(true);
+              }}
             >
               <PlusCircle className="h-4 w-4" />
               New Entry

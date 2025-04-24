@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RiskIssueFormValues } from '@/types/risks';
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -40,16 +41,14 @@ const formSchema = z.object({
   description: z.string().optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
-
 interface AddRiskIssueDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (values: FormValues) => void;
+  onSubmit: (values: RiskIssueFormValues) => void;
 }
 
 export function AddRiskIssueDialog({ open, onOpenChange, onSubmit }: AddRiskIssueDialogProps) {
-  const form = useForm<FormValues>({
+  const form = useForm<RiskIssueFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
@@ -62,11 +61,21 @@ export function AddRiskIssueDialog({ open, onOpenChange, onSubmit }: AddRiskIssu
     },
   });
 
-  const handleSubmit = (values: FormValues) => {
+  console.log("Dialog open state:", open);
+
+  const handleSubmit = (values: RiskIssueFormValues) => {
+    console.log("Form submitted with values:", values);
     onSubmit(values);
     form.reset();
     onOpenChange(false);
   };
+
+  // Reset form when dialog closes
+  React.useEffect(() => {
+    if (!open) {
+      form.reset();
+    }
+  }, [open, form]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
