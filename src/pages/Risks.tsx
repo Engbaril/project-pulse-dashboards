@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   AlertTriangle, 
   AlertCircle, 
@@ -18,8 +18,10 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import PageLayout from '@/components/layout/PageLayout';
 import { risksIssues } from '@/services/mockData';
+import { AddRiskIssueDialog } from '@/components/risks/AddRiskIssueDialog';
 
 const priorityColors = {
   high: 'bg-danger-light text-danger border-danger/40',
@@ -34,8 +36,20 @@ const statusColors = {
 };
 
 const Risks = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
+  
   const risks = risksIssues.filter(item => item.type === 'risk');
   const issues = risksIssues.filter(item => item.type === 'issue');
+  
+  const handleNewEntry = (values: any) => {
+    // In a real app, you would save this to your backend/database
+    // For now, we'll just show a toast notification
+    toast({
+      title: `New ${values.type} added`,
+      description: `"${values.title}" has been added successfully.`,
+    });
+  };
   
   return (
     <PageLayout showFilters={true}>
@@ -53,7 +67,11 @@ const Risks = () => {
               <Filter className="h-4 w-4" />
               Filter
             </Button>
-            <Button size="sm" className="flex items-center gap-2">
+            <Button 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setIsDialogOpen(true)}
+            >
               <PlusCircle className="h-4 w-4" />
               New Entry
             </Button>
@@ -223,6 +241,12 @@ const Risks = () => {
           </TabsContent>
         </Tabs>
       </div>
+      
+      <AddRiskIssueDialog 
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        onSubmit={handleNewEntry}
+      />
     </PageLayout>
   );
 };
