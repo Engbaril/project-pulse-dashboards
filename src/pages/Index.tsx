@@ -9,9 +9,12 @@ import StatCard from '@/components/dashboard/StatCard';
 import ProjectCard from '@/components/dashboard/ProjectCard';
 import ProgressChart from '@/components/dashboard/ProgressChart';
 import RiskIssueTable from '@/components/dashboard/RiskIssueTable';
-import { projects, statusDistribution, budgetData, timelineData, risksIssues, dashboardStats } from '@/services/mockData';
+import { projects, statusDistribution, budgetData, timelineData, dashboardStats } from '@/services/mockData';
+import { useRiskIssue } from '@/contexts/RiskIssueContext';
 
 const Dashboard = () => {
+  const { statsCount } = useRiskIssue();
+  
   return (
     <PageLayout showFilters={true}>
       <div className="space-y-8">
@@ -43,10 +46,10 @@ const Dashboard = () => {
             trend={dashboardStats[2].trend}
           />
           <StatCard
-            title={dashboardStats[3].title}
-            value={dashboardStats[3].value}
+            title="Open Risks"
+            value={statsCount.openRisks.toString()}
             icon={<AlertTriangle />}
-            trend={dashboardStats[3].trend}
+            trend={{ value: 0, isNeutral: true }}
           />
         </div>
 
@@ -120,7 +123,7 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Risks & Issues */}
-        <RiskIssueTable items={risksIssues.slice(0, 5)} />
+        <RiskIssueTable />
 
         {/* Quick Stats */}
         <div className="grid gap-4 grid-cols-1 md:grid-cols-4">

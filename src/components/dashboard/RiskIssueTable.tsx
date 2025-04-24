@@ -4,20 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, AlertCircle } from 'lucide-react';
-
-interface RiskIssueItem {
-  id: string;
-  type: 'risk' | 'issue';
-  title: string;
-  project: string;
-  priority: 'high' | 'medium' | 'low';
-  status: 'open' | 'mitigated' | 'closed';
-  owner: string;
-}
-
-interface RiskIssueTableProps {
-  items: RiskIssueItem[];
-}
+import { useRiskIssue } from '@/contexts/RiskIssueContext';
 
 const priorityColors = {
   high: 'bg-danger-light text-danger border-danger/40',
@@ -31,7 +18,14 @@ const statusColors = {
   closed: 'bg-success-light text-success border-success/40',
 };
 
-const RiskIssueTable = ({ items }: RiskIssueTableProps) => {
+const RiskIssueTable = () => {
+  const { allItems } = useRiskIssue();
+  
+  // Show only the most recent 5 items
+  const items = [...allItems].sort((a, b) => 
+    b.id.localeCompare(a.id)
+  ).slice(0, 5);
+
   return (
     <Card className="h-full">
       <CardHeader className="pb-2">

@@ -18,11 +18,9 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
 import PageLayout from '@/components/layout/PageLayout';
-import { risksIssues } from '@/services/mockData';
 import { AddRiskIssueDialog } from '@/components/risks/AddRiskIssueDialog';
-import { RiskIssueFormValues } from '@/types/risks';
+import { useRiskIssue } from '@/contexts/RiskIssueContext';
 
 const priorityColors = {
   high: 'bg-danger-light text-danger border-danger/40',
@@ -38,22 +36,7 @@ const statusColors = {
 
 const Risks = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
-  
-  const risks = risksIssues.filter(item => item.type === 'risk');
-  const issues = risksIssues.filter(item => item.type === 'issue');
-  
-  const handleNewEntry = (values: RiskIssueFormValues) => {
-    // In a real app, you would save this to your backend/database
-    // For now, we'll just show a toast notification
-    toast({
-      title: `New ${values.type} added`,
-      description: `"${values.title}" has been added successfully.`,
-    });
-    
-    // Log the values to console for debugging
-    console.log("New entry values:", values);
-  };
+  const { risks, issues, addRiskIssue, statsCount } = useRiskIssue();
   
   return (
     <PageLayout showFilters={true}>
@@ -90,7 +73,7 @@ const Risks = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center">
                 <div className="relative mb-2">
-                  <div className="text-5xl font-bold text-danger">15</div>
+                  <div className="text-5xl font-bold text-danger">{statsCount.openRisks}</div>
                   <AlertTriangle className="absolute -top-3 -right-3 h-6 w-6 text-danger" />
                 </div>
                 <p className="text-sm font-medium">Open Risks</p>
@@ -102,7 +85,7 @@ const Risks = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center">
                 <div className="relative mb-2">
-                  <div className="text-5xl font-bold text-success">9</div>
+                  <div className="text-5xl font-bold text-success">{statsCount.mitigatedRisks}</div>
                   <AlertTriangle className="absolute -top-3 -right-3 h-6 w-6 text-success" />
                 </div>
                 <p className="text-sm font-medium">Mitigated Risks</p>
@@ -114,7 +97,7 @@ const Risks = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center">
                 <div className="relative mb-2">
-                  <div className="text-5xl font-bold text-danger">7</div>
+                  <div className="text-5xl font-bold text-danger">{statsCount.openIssues}</div>
                   <AlertCircle className="absolute -top-3 -right-3 h-6 w-6 text-danger" />
                 </div>
                 <p className="text-sm font-medium">Open Issues</p>
@@ -126,7 +109,7 @@ const Risks = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center">
                 <div className="relative mb-2">
-                  <div className="text-5xl font-bold text-success">12</div>
+                  <div className="text-5xl font-bold text-success">{statsCount.resolvedIssues}</div>
                   <AlertCircle className="absolute -top-3 -right-3 h-6 w-6 text-success" />
                 </div>
                 <p className="text-sm font-medium">Resolved Issues</p>
@@ -252,7 +235,7 @@ const Risks = () => {
       <AddRiskIssueDialog 
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
-        onSubmit={handleNewEntry}
+        onSubmit={addRiskIssue}
       />
     </PageLayout>
   );
